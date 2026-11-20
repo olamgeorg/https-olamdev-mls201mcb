@@ -120,24 +120,18 @@ async function authGo(mode) {
     authView(mode, x.message || "Something went wrong");
   }
 }
+let isAdmin = false;
 async function enter(u) {
+  isAdmin = (u.email || "").toLowerCase() === ADMIN_EMAIL.toLowerCase();
   const r = await sb.from("profiles").select("*").eq("id", u.id).maybeSingle();
-  if (r.error || !r.data) {
-    await sb.auth.signOut();
-    user = null;
-    profile = null;
-    return authView("login", "This account is not for MLS201");
-  }
-  // Admin can enter any app (mcb201, mls201, italiano) without changing app_name
-  const isAdmin = r.data.role === "admin";
-  if (!isAdmin && r.data.app_name !== APP_NAME) {
+  if (!isAdmin && (r.error || !r.data || r.data.app_name !== APP_NAME)) {
     await sb.auth.signOut();
     user = null;
     profile = null;
     return authView("login", "This account is not for MLS201");
   }
   user = u;
-  profile = r.data;
+  profile = r.data || { full_name: "Admin" };
   $("#gs").hidden = false;
   home();
 }
@@ -167,6 +161,9 @@ function home() {
   S = null;
   const s = sel && sel.t ? sel : { t: TOPICS, n: "20", m: "practice" };
   A.innerHTML =
+    (isAdmin
+      ? '<button class="btn big" onclick="adminView()">Admin Dashboard</button>'
+      : "") +
     '<div class="card"><h2>Welcome, ' +
     esc(profile.full_name || "Student") +
     '</h2><p class="sub">Medical Microbiology 201 - Medical Microbiology (' +
@@ -567,6 +564,102 @@ function clearHist() {
     localStorage.removeItem("mls_hist_" + user.id);
     scores();
   }
+}
+
+/* ---------- ADMIN DASHBOARD ---------- */
+let AD = { rows: [], studs: 0 };
+async function adminView() {
+  if (!isAdmin) return home();
+  clearInterval(timer);
+  A.innerHTML = '<div class="card">Loading...</div>';
+  const r = await sb
+    .from("results")
+    .select("*")
+    .eq("app_name", APP_NAME)
+    .order("created_at", { ascending: false });
+  const p = await sb.from("profiles").select("id").eq("app_name", APP_NAME);
+  if (r.error) {
+    A.innerHTML =
+      '<div class="card">' +
+      msg(r.error.message + " (run admin.sql in Supabase)") +
+      '<button class="btn o" onclick="home()">Back</button></div>';
+    return;
+  }
+  AD.rows = r.data || [];
+  AD.studs = p.data
+    ? p.data.length
+    : new Set(AD.rows.map((x) => x.user_id)).size;
+  A.innerHTML =
+    '<div class="row"><button class="btn" onclick="home()">Take Quiz</button><button class="btn o" onclick="adminView()">Refresh</button></div><div id="as"></div>' +
+    '<div class="card"><input id="aq" placeholder="Search name or email" oninput="adminList()"><select id="at" onchange="adminList()"><option value="">All topics</option>' +
+    TOPICS.map((t) => "<option>" + esc(t) + "</option>").join("") +
+    '</select><select id="am" onchange="adminList()"><option value="">All modes</option><option>practice</option><option>exam</option><option>timed</option></select></div><div id="al"></div>';
+  adminList();
+}
+function adminList() {
+  const q = $("#aq").value.toLowerCase(),
+    t = $("#at").value,
+    m = $("#am").value;
+  const f = AD.rows.filter(
+    (x) =>
+      (!q ||
+        (x.full_name || "").toLowerCase().includes(q) ||
+        (x.email || "").toLowerCase().includes(q)) &&
+      (!t || (x.topics || "").includes(t)) &&
+      (!m || x.mode === m)
+  );
+  const n = f.length,
+    avg = n
+      ? Math.round((f.reduce((a, x) => a + Number(x.percentage), 0) / n) * 10) /
+        10
+      : 0,
+    pass = n
+      ? Math.round((f.filter((x) => x.pass_fail === "Pass").length / n) * 100)
+      : 0;
+  $("#as").innerHTML =
+    '<div class="card"><div class="grid"><div>Students<br><b>' +
+    AD.studs +
+    "</b></div><div>Quizzes<br><b>" +
+    n +
+    "</b></div><div>Average<br><b>" +
+    avg +
+    "%</b></div><div>Pass rate<br><b>" +
+    pass +
+    "%</b></div></div></div>";
+  $("#al").innerHTML =
+    '<div class="card"><h3>Results (' +
+    n +
+    ")</h3>" +
+    (n
+      ? f
+          .slice(0, 200)
+          .map(
+            (x) =>
+              '<div class="rv ' +
+              (x.pass_fail === "Pass" ? "g" : "w") +
+              '"><b>' +
+              esc(x.full_name || "") +
+              "</b> &middot; " +
+              esc(x.email || "") +
+              "<br>" +
+              x.score +
+              "/" +
+              x.total_questions +
+              " (" +
+              x.percentage +
+              "%) Grade " +
+              esc(x.grade) +
+              " &middot; " +
+              esc(x.mode) +
+              "<br><small>" +
+              new Date(x.created_at).toLocaleString() +
+              "<br>" +
+              esc(x.topics || "") +
+              "</small></div>"
+          )
+          .join("")
+      : '<p class="sub">No results found.</p>') +
+    "</div>";
 }
 
 /* ---------- SETTINGS ---------- */
