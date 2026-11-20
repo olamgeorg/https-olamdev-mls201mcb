@@ -1,4 +1,4 @@
-const C = "mls201-v2",
+const C = "mls201-v3",
   F = [
     "./",
     "index.html",
@@ -22,20 +22,17 @@ self.addEventListener("activate", (e) => {
   );
   self.clients.claim();
 });
+// Network-first: always get the newest files when online, fall back to cache when offline.
 self.addEventListener("fetch", (e) => {
   const r = e.request;
   if (r.method !== "GET" || r.url.includes("supabase.co")) return;
   e.respondWith(
-    caches.match(r).then(
-      (m) =>
-        m ||
-        fetch(r)
-          .then((n) => {
-            const cp = n.clone();
-            caches.open(C).then((c) => c.put(r, cp));
-            return n;
-          })
-          .catch(() => caches.match("index.html"))
-    )
+    fetch(r)
+      .then((n) => {
+        const cp = n.clone();
+        caches.open(C).then((c) => c.put(r, cp));
+        return n;
+      })
+      .catch(() => caches.match(r).then((m) => m || caches.match("index.html")))
   );
 });
