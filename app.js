@@ -122,7 +122,15 @@ async function authGo(mode) {
 }
 async function enter(u) {
   const r = await sb.from("profiles").select("*").eq("id", u.id).maybeSingle();
-  if (r.error || !r.data || r.data.app_name !== APP_NAME) {
+  if (r.error || !r.data) {
+    await sb.auth.signOut();
+    user = null;
+    profile = null;
+    return authView("login", "This account is not for MLS201");
+  }
+  // Admin can enter any app (mcb201, mls201, italiano) without changing app_name
+  const isAdmin = r.data.role === "admin";
+  if (!isAdmin && r.data.app_name !== APP_NAME) {
     await sb.auth.signOut();
     user = null;
     profile = null;
