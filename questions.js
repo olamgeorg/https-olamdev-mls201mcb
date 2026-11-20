@@ -1,106 +1,376 @@
 // Every question is generated from facts taken ONLY from the uploaded notes (MLS201 Medical Microbiology + MCB 201 by Mr Sanusi).
+// Each fact is ONE string in the array below, so reformatting the file cannot merge facts.
 const QUESTIONS = (() => {
-  const RAW = `
-#Introduction to Medical Microbiology
-Medical Microbiology|Branch of microbiology concerned with microorganisms that cause human diseases and the laboratory methods used to detect and identify them Microorganism (microbe)|An organism or biological entity generally too small to be seen clearly with the unaided eye Viruses|Acellular infectious agents that depend on living host cells for replication #Scope of Medical Microbiology Bacteriology|Study of bacteria, including their structure, classification, growth, identification and role in disease Virology|Study of viruses and the diseases they cause Medical Mycology|Deals with fungi that cause human disease Medical Parasitology|Study of parasites of medical importance, their life cycles, transmission, diagnosis and control Mycobacterium tuberculosis|Causative agent of tuberculosis Vibrio cholerae|Causative agent of cholera Escherichia coli|Common cause of urinary tract infections and some intestinal infections Plasmodium falciparum|A major cause of malaria Entamoeba histolytica|Causes amoebiasis Schistosoma haematobium|Causes urogenital schistosomiasis Ascaris lumbricoides|Causes ascariasis Cryptococcus neoformans|Associated with cryptococcosis, including meningitis #Importance of Medical Microbiology in Healthcare Diagnosis of infectious diseases|Identifies infectious agents in specimens and helps distinguish diseases with similar symptoms Selection of antimicrobial treatment|Culture and susceptibility testing guide treatment, particularly where resistance is suspected Infection prevention and control|Supports recognition of healthcare-associated infections and investigation of outbreaks Public health surveillance|Monitors disease occurrence, emerging pathogens and antimicrobial resistance Screening and prevention|Supports screening programmes and detection of selected infections in asymptomatic individuals Research and development|Contributes to diagnostic tests, vaccines, antimicrobial agents and infection control strategies #Phases of Laboratory Testing Pre-analytical phase|Test request, specimen collection, labelling, transportation, reception and registration Analytical phase|The actual examination, including microscopy, culture, identification, antigen detection, molecular testing and susceptibility testing Post-analytical phase|Result review, validation, reporting, communication of critical findings and record retention Contamination during urine collection|Example of a pre-analytical problem Incorrect identification procedure|Example of an analytical problem Reporting a result against the wrong patient record|Example of a post-analytical problem #Specimen Collection Correct patient identification|The specimen label and request must correspond to the same patient, confirmed at the point of collection Correct specimen selection|The specimen must suit the suspected infection, since a wrong anatomical site may miss the organism Correct timing|Collect before antimicrobial treatment begins where possible, without delaying urgent treatment Aseptic technique|Prevents unwanted microorganisms entering the specimen and reduces exposure of the collector Appropriate specimen volume|Insufficient volume may reduce diagnostic sensitivity or lead to rejection Appropriate container|Leak resistant, with secure closure, adequate capacity, compatible with the specimen and sterile where required Proper labelling|At least two approved patient identifiers, the specimen type or source, and the collection date and time where required Prompt transportation|Prevents death of fragile organisms and multiplication of contaminating organisms Appropriate documentation|A request giving patient identity, the investigation requested and relevant clinical details #Common Clinical Specimens Urine|Clean-catch midstream specimen commonly used for urinary tract infection; never taken from a drainage bag for routine culture
-Sputum|Expectorated lower respiratory tract material; the patient must produce sputum rather than saliva
-Stool|Used for infectious diarrhoea and selected parasitic infections; must not be contaminated with urine, toilet water or disinfectants
-Blood for culture|Collected aseptically into blood culture bottles when bloodstream infection is suspected
-Swabs|Used for wounds, throat, genital tract, ear, eye and nose, with the collection site clearly specified Cerebrospinal fluid (CSF)|Collected by an appropriately trained clinician using a sterile procedure for suspected meningitis Other body fluids and aspirates|Pleural, ascitic and synovial fluid and abscess aspirates from normally sterile sites #Specimen Reception and Registration Reception Step 1|Receive the specimen at the designated reception point using precautions for potentially infectious material Reception Step 2|Verify identification by comparing the specimen label with the accompanying request Reception Step 3|Check that the container is intact, properly closed, leak-free and suitable Reception Step 4|Assess specimen suitability: type, quantity, appearance, collection details and transport conditions Reception Step 5|Review the request to confirm the test is clear and clinical information is available Reception Step 6|Decide on acceptance or further action, such as contacting the requesting unit for recollection Reception Step 7|Record problems such as discrepancies, rejections and corrective action Specimen registration|Formal recording of a received specimen and assignment of a unique laboratory accession number for traceability Unlabeled or mislabeled specimen|A criterion that may lead to specimen rejection or special authorization #Specimen Containers Universal sterile container|General-purpose wide-mouthed container for urine, stool, sputum and selected body fluids Blood culture bottles|Bottles containing culture medium and additives, sometimes separate aerobic and anaerobic bottles Swab transport systems|A swab and a tube with transport medium that help maintain specimen integrity during transport Sterile screw-cap tubes|Used for CSF and selected other body fluids Anaerobic transport containers|Designed to minimize oxygen exposure and preserve anaerobic organisms Stool container with attached scoop|Allows faecal material to be transferred without direct hand contact Leak-proof construction|Characteristic of an ideal container that prevents leakage during handling and transport #Specimen Processing Specimen processing|Procedures that prepare a specimen for the requested investigation, such as smears, centrifugation and inoculation of media Processing Step 1|Confirm specimen identity Processing Step 2|Review the request and specimen suitability Processing Step 3|Inspect the specimen for leakage, inadequate volume or inappropriate transport conditions Processing Step 4|Apply safety precautions: risk assessment, personal protective equipment and containment Processing Step 5|Prepare the specimen for the investigation, e.g. direct smear, wet preparation, concentration or inoculation Processing Step 6|Perform the examination using a validated method and appropriate controls Processing Step 7|Document the work, observations, deviations and results #Specimen Storage Specimen storage|Maintenance of a specimen under defined conditions before, during or after testing to preserve its properties Temperature (storage factor)|Refrigeration may reduce contaminants but can damage cold-sensitive organisms; freezing is not universally appropriate for cultures Time (storage factor)|The longer a specimen stays unprocessed, the greater the microbial multiplication, death of fragile organisms and loss of analytes Container and transport medium|Influence moisture, oxygen exposure, pH and other factors affecting specimen stability Nature of the organism|Some organisms are robust while others are sensitive to drying, temperature changes, oxygen exposure or delays Specimen composition|Blood, urine, stool, CSF and tissue differ, so their storage requirements cannot be assumed identical #Specimen Disposal and Waste Management Risk assessment (disposal)|Determines the potential biological hazard and the appropriate disposal route Segregation|Separating infectious waste, sharps, chemical waste and ordinary waste instead of mixing them Appropriate containment|Placing waste in designated, compatible, leak-resistant or puncture-resistant containers Decontamination|An approved, validated process applied to specimens or materials before final disposal where required Safe handling|Prevents splashes, spills, needlestick injuries and other exposures Documentation (disposal)|Recording waste treatment, collection and disposal when required by institutional procedures Autoclaving|Uses saturated steam under pressure for microbial inactivation; not suitable for chemical waste
-Incineration|Controlled high-temperature combustion in a suitably designed facility; open burning is not acceptable
-Chemical disinfection|Decontaminates compatible surfaces and spills; depends on concentration, contact time and organic material
-#MCB:Bacteria - Structure
-Prokaryote|Cell with no true nucleus and no membrane-bound organelles such as mitochondria
-Nucleoid|Region where the single circular bacterial chromosome lies free
-Plasmids|Small extra DNA circles that often carry genes such as antibiotic resistance
-Peptidoglycan|Rigid sugar-and-amino-acid mesh of the bacterial cell wall that gives shape and stops bursting
-70S ribosomes|Bacterial protein-making structures that differ from human 80S ribosomes, so some antibiotics hit bacteria selectively
-Capsule or slime layer|Protects against phagocytes and helps attachment, e.g. in Streptococcus pneumoniae
-Pili/fimbriae|Hair-like projections for attachment; sex pili pass DNA during conjugation
-Endospores|Tough, dormant, dehydrated forms made by Bacillus and Clostridium that survive boiling, drying and disinfectants
-Gram-positive wall|Thick peptidoglycan, teichoic acids present, no outer membrane, stains purple
-Gram-negative wall|Thin peptidoglycan with an outer membrane containing LPS, stains pink/red
-#MCB:Bacteria - Ecology and Reproduction
-Bacillus (habitat)|Lives in soil, dust and air; spores let it survive drying and heat
-E. coli (habitat)|Lives in the intestine of warm-blooded animals; its presence in water signals faecal pollution Staphylococcus (habitat)|Lives on skin and the nose lining; causes boils and food poisoning when it enters wounds or food Streptomyces (habitat)|Soil organism that breaks down tough organic matter, gives soil its earthy smell and produces many antibiotics Clostridium (habitat)|Lives in oxygen-free places such as deep soil, mud and the gut; oxygen kills active cells Rhizobium (habitat)|Lives in legume root nodules and converts atmospheric nitrogen to ammonia for the plant Binary fission|Main bacterial reproduction: the cell copies its DNA, forms a septum and divides into two identical cells Transformation|Gene exchange in which a cell picks up free DNA from its surroundings Transduction|Gene exchange in which a bacteriophage carries DNA from one cell to another Conjugation (bacteria)|Gene exchange where two cells join through a pilus and one passes plasmid DNA, spreading resistance genes #MCB:Fungi Eukaryote (fungi)|Cell with a true nucleus and membrane-bound organelles, but no chlorophyll Chitin|Main component, with glucans, of the fungal cell wall Ergosterol|Fungal membrane sterol targeted by amphotericin B and fluconazole Yeasts|Single oval fungal cells that reproduce by budding Moulds|Fungi made of thread-like hyphae that form a mycelium Septate hyphae|Hyphae with cross-walls, as in Aspergillus and Penicillium Coenocytic hyphae|Hyphae with no cross-walls, as in Rhizopus and Mucor Dimorphism|Change of form with temperature: mould at about 25 °C and yeast at 37 °C Saprophytes|Fungi living on dead organic matter that recycle carbon and minerals Candida (ecology)|Normal flora of mouth, gut and vagina; an opportunistic pathogen causing thrush Saccharomyces (ecology)|Found on fruit skins and in sugary liquids where it ferments sugar to alcohol and carbon dioxide Rhizopus (ecology)|Common black bread mould that also rots soft, moist fruits Sporangiospores|Asexual spores made inside a sporangium, as in Rhizopus and Mucor Conidia|Asexual spores made at the tips of conidiophores and not enclosed, as in Aspergillus and Penicillium Zygospores|Thick-walled sexual spores formed when two compatible hyphae fuse, as in Rhizopus Ascospores|Sexual spores formed inside an ascus, as in Saccharomyces Basidiospores|Sexual spores formed on a club-shaped basidium, as in mushrooms #MCB:Algae and Protozoa Algae|Eukaryotes that photosynthesise with chloroplasts and have no true roots, stems or leaves Diatoms|Algae with silica shells that fossilise into diatomaceous earth Eutrophication|Excess nutrients cause algal blooms; algae die, bacteria use up the oxygen and fish die
-Isogamy|Sexual reproduction in algae in which the gametes look alike
-Anisogamy|Sexual reproduction in algae in which the gametes differ in size
-Oogamy|Sexual reproduction in which a large egg is fertilised by a small sperm
-Spirogyra conjugation|Two filaments join by tubes and the contents of one cell move into the other
-Amoeboids|Protozoa that move by pseudopodia, e.g. Amoeba and Entamoeba
-Ciliates|Protozoa that move by cilia, e.g. Paramecium
-Flagellates|Protozoa that move by flagella, e.g. Euglena and Giardia
-Sporozoans|Protozoa such as Plasmodium that are non-motile as adults and form spores
-Protozoal cysts|Protective forms that survive outside the host and spread through water
-Schizogony|Multiple fission of Plasmodium in human liver and red blood cells
-Sporogony|Sexual stage of Plasmodium producing sporozoites inside the mosquito
-#MCB:Viruses
-Obligate intracellular parasites|Viruses can multiply only inside a living host cell
-Capsid|Protein coat of capsomeres that protects the viral genome
-Viral envelope|Lipid layer taken from the host membrane, making viruses easier to destroy with soap and alcohol
-Naked virus|A virus without an envelope, e.g. poliovirus
-Viral genome|Either DNA or RNA, never both
-Virus replication sequence|Attachment, penetration, uncoating, synthesis, assembly and release
-Lytic cycle|Phage destroys the host and releases new phages straight away
-Lysogenic cycle|Phage DNA integrates into the host chromosome and is copied silently with each division
-Prophage|Integrated phage DNA copied with each host cell division
-#MCB:Identification Methods
-Morphological identification|Colony shape, colour, margin and elevation plus microscopy of cell shape and arrangement
-Acid-fast stain (Ziehl-Neelsen)|Stain used to identify Mycobacterium Cultural identification|Use of selective, differential and enriched media such as MacConkey, blood agar and Sabouraud dextrose agar Selective media|Contain agents that stop some microbes growing Mannitol Salt Agar|Has high salt so mainly staphylococci grow MacConkey agar|Contains bile salts and crystal violet so mainly Gram-negative bacteria grow Differential media|Show differences between organisms that grow; on MacConkey lactose fermenters turn pink and non-fermenters stay colourless
-Catalase test|Hydrogen peroxide gives oxygen bubbles; Staphylococcus positive, Streptococcus negative
-Coagulase test|Tests whether the bacterium clots plasma; positive for Staphylococcus aureus
-Oxidase test|Detects cytochrome c oxidase; Pseudomonas positive, E. coli negative
-IMViC tests|Indole, methyl red, Voges-Proskauer and citrate, separating coliforms; E. coli is typically + + - -
-Serological identification|Agglutination and ELISA detecting specific antigens or antibodies
-Molecular identification|PCR, 16S rRNA sequencing, DNA probes and MALDI-TOF
-Gram-positive cocci workflow|Gram stain, then catalase separates Staphylococcus from Streptococcus, then coagulase separates S. aureus from other staphylococci
-#MCB:Economic Importance
-Lactobacillus and S. thermophilus|Turn lactose into lactic acid, giving yoghurt and cheese sour flavour and thick texture
-Saccharomyces cerevisiae|Ferments sugar to ethanol and CO2 for beer, wine and bread rising
-Aspergillus oryzae|Breaks down soybean and rice in soy sauce production
-Acetobacter|Converts ethanol to acetic acid to make vinegar Penicillium (antibiotic)|Source of penicillin Streptomyces (antibiotic)|Source of streptomycin Genetic engineering|Lets E. coli and yeast make human insulin, growth hormone and vaccines in large tanks Rhizobium and Azotobacter|Fix nitrogen, reducing the need for chemical fertiliser Bacillus thuringiensis|Makes a toxin used as a natural insecticide Mycorrhizal fungi|Help plant roots take up water and phosphorus Aspergillus niger|Source of citric acid for soft drinks and preservatives Methanogens|Produce biogas (methane) from animal and plant waste Bioremediation|Microbial clean-up of oil spills Staphylococcus aureus (toxin)|Makes a heat-stable enterotoxin in food left at room temperature Clostridium botulinum|Makes botulinum toxin in badly canned food Aspergillus flavus|Makes aflatoxins in stored groundnut and maize, which can cause liver cancer Biodeterioration|Microbial damage to paper, leather, paint, wood and metal pipes Antimicrobial resistance|Overuse of antibiotics selects resistant strains that are harder and costlier to treat #MCB:Microbiology of Air Airborne microbes|Transient, carried on dust, droplets and aerosols, and they do not multiply in air Settle plate method|Open agar plate exposed for a set time; microbes settle by gravity, giving a rough count Air sampler (impaction)|Draws a measured volume of air onto agar, giving counts per cubic metre HEPA filters|Trap particles to control microbes in air Dominant airborne microbes|Spore-formers and pigmented microbes, because spores resist drying and pigments protect against sunlight #MCB:Microbiology of Food Intrinsic factors|Properties of the food itself such as pH, water activity, nutrients and redox potential Extrinsic factors|Storage conditions such as temperature, humidity and surrounding gases Water activity (aw)|Available water; low in dried, salted and sugary foods, which resist spoilage
-Food infection|Live bacteria multiply in the gut, e.g. Salmonella and Shigella; symptoms appear after hours or days
-Food intoxication|Toxin made in the food before eating, e.g. S. aureus and C. botulinum; symptoms appear quickly
-Meat and fish spoilage|Caused mainly by Pseudomonas and Proteus
-Canned food spoilage|Caused by Clostridium and Bacillus spores that survive under-processing
-Pathogen growth temperature|Most pathogens grow fastest between about 5 °C and 60 °C
-Irradiation|Preservation method that damages DNA
-#MCB:Microbiology of Milk and Dairy Products
-Milk as growth medium|Rich in lactose, protein and fat, with plenty of water and a pH of about 6.6
-Mycobacterium bovis|Milk-borne cause of bovine tuberculosis
-Ropiness|Spoilage making milk stringy and slimy
-Curdling|Souring in which casein precipitates as lactic acid bacteria ferment lactose
-Methylene blue reduction test|Dye loses its blue colour as microbes use oxygen; faster fading means more bacteria
-Resazurin test|Colour changes from blue to pink to colourless
-Phosphatase test|A positive result means the milk was under-heated or mixed with raw milk
-HTST pasteurisation|72 °C for 15 seconds
-UHT sterilisation|About 135 °C for a few seconds, giving milk that keeps for months unopened
-Yoghurt|Milk heated then inoculated with Lactobacillus bulgaricus and Streptococcus thermophilus
-Cheese ripening moulds|Penicillium roqueforti and P. camemberti ripen blue and Camembert-type cheeses
-Nono|Traditional fermented milk drink in Nigeria soured naturally by lactic acid bacteria
-Butter rancidity|Fat is broken down by microbial lipases
-#MCB:Microbiology of Water
-Surface water|Rivers, ponds and lakes; the most contaminated water source
-Groundwater|Wells and boreholes; filtered by soil but can be polluted by latrines and soakaways
-Indicator organisms|Easily detected gut organisms such as coliforms and faecal streptococci whose presence suggests pathogens
-E. coli (water indicator)|Best indicator of recent faecal pollution; drinking water should have zero in 100 mL
-Multiple Tube Fermentation|Tubes of broth receive different volumes; gas and acid are converted by a table to the most probable number per 100 mL
-Membrane filtration|Water passed through a filter that traps bacteria, then placed on selective agar and colonies counted
-Sedimentation|Water purification step in which large particles settle
-Coagulation/flocculation|Alum makes fine particles clump and sink
-Chlorination|Disinfection with a residual to protect water in pipes
-Waterborne diseases|Cholera, typhoid, dysentery, hepatitis A, giardiasis and polio
-#MCB:Microbiology of Soil
-Soil bacteria|The most abundant group in soil, while fungi have the greatest biomass
-Rhizosphere|Zone around plant roots where roots release sugars and amino acids and microbe numbers are highest
-Nitrification|Nitrosomonas turns ammonia to nitrite and Nitrobacter turns nitrite to nitrate
-Denitrification|Bacteria return nitrogen to the air as gas
-Nitrogen fixation|Rhizobium and Azotobacter fix atmospheric nitrogen
-Serial dilution and plate count|Soil diluted stepwise and spread on agar to count colonies per gram
-Enrichment culture|Medium favouring a particular group so that it outgrows the rest
-#MCB:Bacteria - Structure
-Six groups of microorganisms|Bacteria, fungi, algae, protozoa, viruses and archaea
-Size of bacteria|Usually 0.5 to 5 micrometres long Plasma membrane (bacteria)|Controls what enters and leaves the cell and carries out respiration Flagella|Whip-like tails used for bacterial movement Cocci|Spherical bacteria Bacilli|Rod-shaped bacteria Vibrios|Comma-shaped bacteria Spirilla|Rigid spiral bacteria Spirochaetes|Flexible spiral bacteria Filamentous bacteria|Shape seen in Streptomyces Why canned food is heated under pressure|Endospores survive boiling, drying and disinfectants Penicillin action|Blocks cell wall building, so it kills growing bacteria but not human cells Gram-positive examples|Bacillus, Staphylococcus and Clostridium Gram-negative examples|Escherichia, Pseudomonas and Salmonella Safranin|Dye taken up by Gram-negative cells, turning them pink/red #MCB:Bacteria - Ecology and Reproduction Generation time of E. coli|About 20 minutes in good conditions, so one cell can become millions within hours Streptomyces spores|Conidia made at the tips of aerial filaments for dispersal Genetic exchange|Not reproduction because cell number does not rise, but it creates variation Rhizobium and legumes|The plant supplies sugars in return for the ammonia made from atmospheric nitrogen #MCB:Fungi Fungal nutrition|Secrete enzymes onto a substrate and absorb the digested nutrients, making fungi nature's main decomposers Mycelium|Mass of hyphae seen as the fuzzy growth on spoiled bread Histoplasma|Dimorphic fungus that is a mould in the environment and a yeast in the body Candida albicans switching|Can switch between yeast and filamentous forms, which helps it invade tissue Opportunistic pathogen|Causes disease only when body defences or the normal bacterial balance are weakened Aspergillus and Penicillium (ecology)|Found everywhere as airborne spores and major causes of food and grain spoilage Aflatoxin|Toxin made by some Aspergillus species Schizosaccharomyces|Fungus that reproduces asexually by fission, splitting in two Fungal reproduction|Usually both asexual (fast, many identical spores) and sexual (slower, creates variety and hardy spores) #MCB:Algae and Protozoa Algal pigments|Chlorophyll in chloroplasts plus other pigments giving green, brown or red colours Algal cell wall|Made of cellulose, or of silica in diatoms Algal forms|Unicellular (Chlorella, Chlamydomonas), colonial (Volvox) or filamentous (Spirogyra) Algal oxygen role|Algae supply much of the world's oxygen Algal toxins|Some bloom-forming species release toxins into drinking water Zoospores|Motile asexual spores of algae Fragmentation|Asexual algal method in which filaments break into pieces Protozoa|Single-celled eukaryotes that behave like tiny animals and have no cell wall Pseudopodia|False feet used by amoeboids for movement Micronucleus|Small Paramecium nucleus used in sexual exchange Plasmodium (disease)|Causes malaria, spread by Anopheles mosquitoes Entamoeba (spread)|Causes amoebic dysentery through contaminated food and water Giardia|Flagellate parasite that causes diarrhoea Ciliate conjugation|Exchange of nuclear material for variation without increasing cell number Free-living protozoa|Live in ponds, wet soil and the sea and help control bacterial numbers #MCB:Viruses Virus size|About 20 to 300 nanometres, much smaller than bacteria Acellular|Having no cytoplasm, ribosomes or metabolism of its own Capsomeres|Repeating protein units that build the capsid Virus shapes|Helical, icosahedral and complex Bacteriophage|Virus that infects bacteria Phage structure|Complex shape with a head, tail and tail fibres Attachment|First replication step: the virus binds to a receptor on the host cell Penetration|Replication step in which the genome or whole virus enters the cell Viral release|Happens by lysis (bursting the cell) or by budding out Lysogenic trigger|Switches the prophage into the lytic cycle #MCB:Identification Methods Physiological identification|Oxygen requirement, temperature and pH tolerance and motility Biochemical identification|Catalase, oxidase, coagulase, urease, citrate, indole, TSI and sugar fermentation, which separate species Pure culture|First step in identification, followed by looking at the microbe and testing what it can do Blood agar|Example of an enriched medium Lactose fermenter on MacConkey|E. coli, which turns pink from acid Non-fermenter on MacConkey|Salmonella, which stays colourless No single test|Several clues are combined because one test alone is not enough #MCB:Economic Importance Economic importance|The money, health and food value, or loss, that microbes bring Dual role example|Aspergillus gives citric acid but also aflatoxin Fermentation (food)|Microbes ferment raw materials, changing taste, texture and shelf life Industrial enzymes|Amylase, protease and lipase used for detergents, brewing and textiles Bacterial diseases|Typhoid, cholera and tuberculosis Fungal diseases|Candidiasis and ringworm Protozoal diseases|Malaria and amoebiasis Viral diseases|HIV/AIDS, hepatitis and Lassa fever Crop and animal diseases|Plant blights, rusts and smuts, anthrax and foot-and-mouth disease #MCB:Microbiology of Air Air as a habitat|Not a natural habitat because it has no nutrients or water, so it has no resident flora Sources of airborne microbes|Soil and dust, water surfaces, humans, animals and plants Common airborne fungi|Aspergillus, Penicillium, Cladosporium and Alternaria Airborne diseases|Tuberculosis, influenza, measles and COVID-19 Air control methods|UV light, ventilation, HEPA filters and surface disinfection #MCB:Microbiology of Food Food contamination sources|Soil, water, air, food handlers, unclean equipment, pests and animals pH (food)|Most bacteria prefer near-neutral, while yeasts and moulds tolerate acid so fruit spoils by fungi Bread spoilage|Caused by Rhizopus and Aspergillus Fruit and vegetable spoilage|Caused by yeasts and moulds Lysozyme|Natural antimicrobial found in egg white Heat preservation|Pasteurisation and canning kill cells Cold preservation|Refrigeration or freezing slows or stops growth Drying, salting and sugaring|Preservation methods that lower water activity #MCB:Microbiology of Milk and Dairy Products Milk contamination sources|Udder and teat surface, milker's hands, dirty utensils, air, water and animal feed Lactococcus and Lactobacillus|Lactic acid bacteria that sour milk Fresh milk|Nearly sterile from a healthy udder but contaminated during and after milking Standard plate count|Counts colonies grown from a measured volume of milk Pasteurisation|Kills disease-causing bacteria without changing the milk much Holder method|Pasteurisation at 63 °C for 30 minutes Cheese making|Lactic acid bacteria and rennet curdle the milk, then the curd is pressed and ripened Butter making|Churning cream, often after souring by lactic acid bacteria Blowing of cheese|Gas caused by gas-producing bacteria Role of microbes in dairy products|Acid production, flavour and aroma compounds, texture and preservation Diacetyl|Compound that gives butter its flavour #MCB:Microbiology of Water Rainwater|Cleanest water source, though it picks up dust microbes Natural flora of water|Pseudomonas, algae and protozoa Water contaminants|Faecal bacteria, viruses and parasites entering through sewage, animal waste and runoff Presence/absence test|Quick yes/no check for coliforms Water filtration|Sand filters remove the remaining particles and many microbes Water disinfection|Chlorination, ozone, UV light or boiling Reason for indicator organisms|It is impractical to test for every pathogen, so easily detected gut organisms are tested #MCB:Microbiology of Soil Soil as a habitat|Richest microbial habitat on Earth, with billions of microbes in one gram Actinomycetes|Filamentous soil bacteria such as Streptomyces Soil fungi|Group with the greatest biomass in soil Factors affecting soil microbes|Moisture, pH, temperature, organic matter, aeration and depth Decomposition and humus|Dead plants and animals are broken down, releasing nutrients and forming humus that improves soil structure Direct microscopy (soil)|Examining soil under the microscope to see microbes in place Other soil microbial roles|Binding soil particles, producing antibiotics and promoting plant growth #MCB:Quick Revision - Bacteria vs Fungi vs Viruses Bacterial cell wall|Peptidoglycan Fungal cell wall|Chitin and glucans Viral coat|No cell wall, only a protein capsid Bacterial treatment|Antibiotics Fungal treatment|Antifungals Viral treatment|Antivirals and vaccines Examples of bacteria, fungi and virus|E. coli, Candida and HIV `;
+  const RAW = [
+    "#Introduction to Medical Microbiology",
+    "Medical Microbiology|Branch of microbiology concerned with microorganisms that cause human diseases and the laboratory methods used to detect and identify them",
+    "Microorganism (microbe)|An organism or biological entity generally too small to be seen clearly with the unaided eye",
+    "Viruses|Acellular infectious agents that depend on living host cells for replication",
+    "#Scope of Medical Microbiology",
+    "Bacteriology|Study of bacteria, including their structure, classification, growth, identification and role in disease",
+    "Virology|Study of viruses and the diseases they cause",
+    "Medical Mycology|Deals with fungi that cause human disease",
+    "Medical Parasitology|Study of parasites of medical importance, their life cycles, transmission, diagnosis and control",
+    "Mycobacterium tuberculosis|Causative agent of tuberculosis",
+    "Vibrio cholerae|Causative agent of cholera",
+    "Escherichia coli|Common cause of urinary tract infections and some intestinal infections",
+    "Plasmodium falciparum|A major cause of malaria",
+    "Entamoeba histolytica|Causes amoebiasis",
+    "Schistosoma haematobium|Causes urogenital schistosomiasis",
+    "Ascaris lumbricoides|Causes ascariasis",
+    "Cryptococcus neoformans|Associated with cryptococcosis, including meningitis",
+    "#Importance of Medical Microbiology in Healthcare",
+    "Diagnosis of infectious diseases|Identifies infectious agents in specimens and helps distinguish diseases with similar symptoms",
+    "Selection of antimicrobial treatment|Culture and susceptibility testing guide treatment, particularly where resistance is suspected",
+    "Infection prevention and control|Supports recognition of healthcare-associated infections and investigation of outbreaks",
+    "Public health surveillance|Monitors disease occurrence, emerging pathogens and antimicrobial resistance",
+    "Screening and prevention|Supports screening programmes and detection of selected infections in asymptomatic individuals",
+    "Research and development|Contributes to diagnostic tests, vaccines, antimicrobial agents and infection control strategies",
+    "#Phases of Laboratory Testing",
+    "Pre-analytical phase|Test request, specimen collection, labelling, transportation, reception and registration",
+    "Analytical phase|The actual examination, including microscopy, culture, identification, antigen detection, molecular testing and susceptibility testing",
+    "Post-analytical phase|Result review, validation, reporting, communication of critical findings and record retention",
+    "Contamination during urine collection|Example of a pre-analytical problem",
+    "Incorrect identification procedure|Example of an analytical problem",
+    "Reporting a result against the wrong patient record|Example of a post-analytical problem",
+    "#Specimen Collection",
+    "Correct patient identification|The specimen label and request must correspond to the same patient, confirmed at the point of collection",
+    "Correct specimen selection|The specimen must suit the suspected infection, since a wrong anatomical site may miss the organism",
+    "Correct timing|Collect before antimicrobial treatment begins where possible, without delaying urgent treatment",
+    "Aseptic technique|Prevents unwanted microorganisms entering the specimen and reduces exposure of the collector",
+    "Appropriate specimen volume|Insufficient volume may reduce diagnostic sensitivity or lead to rejection",
+    "Appropriate container|Leak resistant, with secure closure, adequate capacity, compatible with the specimen and sterile where required",
+    "Proper labelling|At least two approved patient identifiers, the specimen type or source, and the collection date and time where required",
+    "Prompt transportation|Prevents death of fragile organisms and multiplication of contaminating organisms",
+    "Appropriate documentation|A request giving patient identity, the investigation requested and relevant clinical details",
+    "#Common Clinical Specimens",
+    "Urine|Clean-catch midstream specimen commonly used for urinary tract infection; never taken from a drainage bag for routine culture",
+    "Sputum|Expectorated lower respiratory tract material; the patient must produce sputum rather than saliva",
+    "Stool|Used for infectious diarrhoea and selected parasitic infections; must not be contaminated with urine, toilet water or disinfectants",
+    "Blood for culture|Collected aseptically into blood culture bottles when bloodstream infection is suspected",
+    "Swabs|Used for wounds, throat, genital tract, ear, eye and nose, with the collection site clearly specified",
+    "Cerebrospinal fluid (CSF)|Collected by an appropriately trained clinician using a sterile procedure for suspected meningitis",
+    "Other body fluids and aspirates|Pleural, ascitic and synovial fluid and abscess aspirates from normally sterile sites",
+    "#Specimen Reception and Registration",
+    "Reception Step 1|Receive the specimen at the designated reception point using precautions for potentially infectious material",
+    "Reception Step 2|Verify identification by comparing the specimen label with the accompanying request",
+    "Reception Step 3|Check that the container is intact, properly closed, leak-free and suitable",
+    "Reception Step 4|Assess specimen suitability: type, quantity, appearance, collection details and transport conditions",
+    "Reception Step 5|Review the request to confirm the test is clear and clinical information is available",
+    "Reception Step 6|Decide on acceptance or further action, such as contacting the requesting unit for recollection",
+    "Reception Step 7|Record problems such as discrepancies, rejections and corrective action",
+    "Specimen registration|Formal recording of a received specimen and assignment of a unique laboratory accession number for traceability",
+    "Unlabeled or mislabeled specimen|A criterion that may lead to specimen rejection or special authorization",
+    "#Specimen Containers",
+    "Universal sterile container|General-purpose wide-mouthed container for urine, stool, sputum and selected body fluids",
+    "Blood culture bottles|Bottles containing culture medium and additives, sometimes separate aerobic and anaerobic bottles",
+    "Swab transport systems|A swab and a tube with transport medium that help maintain specimen integrity during transport",
+    "Sterile screw-cap tubes|Used for CSF and selected other body fluids",
+    "Anaerobic transport containers|Designed to minimize oxygen exposure and preserve anaerobic organisms",
+    "Stool container with attached scoop|Allows faecal material to be transferred without direct hand contact",
+    "Leak-proof construction|Characteristic of an ideal container that prevents leakage during handling and transport",
+    "#Specimen Processing",
+    "Specimen processing|Procedures that prepare a specimen for the requested investigation, such as smears, centrifugation and inoculation of media",
+    "Processing Step 1|Confirm specimen identity",
+    "Processing Step 2|Review the request and specimen suitability",
+    "Processing Step 3|Inspect the specimen for leakage, inadequate volume or inappropriate transport conditions",
+    "Processing Step 4|Apply safety precautions: risk assessment, personal protective equipment and containment",
+    "Processing Step 5|Prepare the specimen for the investigation, e.g. direct smear, wet preparation, concentration or inoculation",
+    "Processing Step 6|Perform the examination using a validated method and appropriate controls",
+    "Processing Step 7|Document the work, observations, deviations and results",
+    "#Specimen Storage",
+    "Specimen storage|Maintenance of a specimen under defined conditions before, during or after testing to preserve its properties",
+    "Temperature (storage factor)|Refrigeration may reduce contaminants but can damage cold-sensitive organisms; freezing is not universally appropriate for cultures",
+    "Time (storage factor)|The longer a specimen stays unprocessed, the greater the microbial multiplication, death of fragile organisms and loss of analytes",
+    "Container and transport medium|Influence moisture, oxygen exposure, pH and other factors affecting specimen stability",
+    "Nature of the organism|Some organisms are robust while others are sensitive to drying, temperature changes, oxygen exposure or delays",
+    "Specimen composition|Blood, urine, stool, CSF and tissue differ, so their storage requirements cannot be assumed identical",
+    "#Specimen Disposal and Waste Management",
+    "Risk assessment (disposal)|Determines the potential biological hazard and the appropriate disposal route",
+    "Segregation|Separating infectious waste, sharps, chemical waste and ordinary waste instead of mixing them",
+    "Appropriate containment|Placing waste in designated, compatible, leak-resistant or puncture-resistant containers",
+    "Decontamination|An approved, validated process applied to specimens or materials before final disposal where required",
+    "Safe handling|Prevents splashes, spills, needlestick injuries and other exposures",
+    "Documentation (disposal)|Recording waste treatment, collection and disposal when required by institutional procedures",
+    "Autoclaving|Uses saturated steam under pressure for microbial inactivation; not suitable for chemical waste",
+    "Incineration|Controlled high-temperature combustion in a suitably designed facility; open burning is not acceptable",
+    "Chemical disinfection|Decontaminates compatible surfaces and spills; depends on concentration, contact time and organic material",
+    "#MCB:Bacteria - Structure",
+    "Prokaryote|Cell with no true nucleus and no membrane-bound organelles such as mitochondria",
+    "Nucleoid|Region where the single circular bacterial chromosome lies free",
+    "Plasmids|Small extra DNA circles that often carry genes such as antibiotic resistance",
+    "Peptidoglycan|Rigid sugar-and-amino-acid mesh of the bacterial cell wall that gives shape and stops bursting",
+    "70S ribosomes|Bacterial protein-making structures that differ from human 80S ribosomes, so some antibiotics hit bacteria selectively",
+    "Capsule or slime layer|Protects against phagocytes and helps attachment, e.g. in Streptococcus pneumoniae",
+    "Pili/fimbriae|Hair-like projections for attachment; sex pili pass DNA during conjugation",
+    "Endospores|Tough, dormant, dehydrated forms made by Bacillus and Clostridium that survive boiling, drying and disinfectants",
+    "Gram-positive wall|Thick peptidoglycan, teichoic acids present, no outer membrane, stains purple",
+    "Gram-negative wall|Thin peptidoglycan with an outer membrane containing LPS, stains pink/red",
+    "#MCB:Bacteria - Ecology and Reproduction",
+    "Bacillus (habitat)|Lives in soil, dust and air; spores let it survive drying and heat",
+    "E. coli (habitat)|Lives in the intestine of warm-blooded animals; its presence in water signals faecal pollution",
+    "Staphylococcus (habitat)|Lives on skin and the nose lining; causes boils and food poisoning when it enters wounds or food",
+    "Streptomyces (habitat)|Soil organism that breaks down tough organic matter, gives soil its earthy smell and produces many antibiotics",
+    "Clostridium (habitat)|Lives in oxygen-free places such as deep soil, mud and the gut; oxygen kills active cells",
+    "Rhizobium (habitat)|Lives in legume root nodules and converts atmospheric nitrogen to ammonia for the plant",
+    "Binary fission|Main bacterial reproduction: the cell copies its DNA, forms a septum and divides into two identical cells",
+    "Transformation|Gene exchange in which a cell picks up free DNA from its surroundings",
+    "Transduction|Gene exchange in which a bacteriophage carries DNA from one cell to another",
+    "Conjugation (bacteria)|Gene exchange where two cells join through a pilus and one passes plasmid DNA, spreading resistance genes",
+    "#MCB:Fungi",
+    "Eukaryote (fungi)|Cell with a true nucleus and membrane-bound organelles, but no chlorophyll",
+    "Chitin|Main component, with glucans, of the fungal cell wall",
+    "Ergosterol|Fungal membrane sterol targeted by amphotericin B and fluconazole",
+    "Yeasts|Single oval fungal cells that reproduce by budding",
+    "Moulds|Fungi made of thread-like hyphae that form a mycelium",
+    "Septate hyphae|Hyphae with cross-walls, as in Aspergillus and Penicillium",
+    "Coenocytic hyphae|Hyphae with no cross-walls, as in Rhizopus and Mucor",
+    "Dimorphism|Change of form with temperature: mould at about 25 °C and yeast at 37 °C",
+    "Saprophytes|Fungi living on dead organic matter that recycle carbon and minerals",
+    "Candida (ecology)|Normal flora of mouth, gut and vagina; an opportunistic pathogen causing thrush",
+    "Saccharomyces (ecology)|Found on fruit skins and in sugary liquids where it ferments sugar to alcohol and carbon dioxide",
+    "Rhizopus (ecology)|Common black bread mould that also rots soft, moist fruits",
+    "Sporangiospores|Asexual spores made inside a sporangium, as in Rhizopus and Mucor",
+    "Conidia|Asexual spores made at the tips of conidiophores and not enclosed, as in Aspergillus and Penicillium",
+    "Zygospores|Thick-walled sexual spores formed when two compatible hyphae fuse, as in Rhizopus",
+    "Ascospores|Sexual spores formed inside an ascus, as in Saccharomyces",
+    "Basidiospores|Sexual spores formed on a club-shaped basidium, as in mushrooms",
+    "#MCB:Algae and Protozoa",
+    "Algae|Eukaryotes that photosynthesise with chloroplasts and have no true roots, stems or leaves",
+    "Diatoms|Algae with silica shells that fossilise into diatomaceous earth",
+    "Eutrophication|Excess nutrients cause algal blooms; algae die, bacteria use up the oxygen and fish die",
+    "Isogamy|Sexual reproduction in algae in which the gametes look alike",
+    "Anisogamy|Sexual reproduction in algae in which the gametes differ in size",
+    "Oogamy|Sexual reproduction in which a large egg is fertilised by a small sperm",
+    "Spirogyra conjugation|Two filaments join by tubes and the contents of one cell move into the other",
+    "Amoeboids|Protozoa that move by pseudopodia, e.g. Amoeba and Entamoeba",
+    "Ciliates|Protozoa that move by cilia, e.g. Paramecium",
+    "Flagellates|Protozoa that move by flagella, e.g. Euglena and Giardia",
+    "Sporozoans|Protozoa such as Plasmodium that are non-motile as adults and form spores",
+    "Protozoal cysts|Protective forms that survive outside the host and spread through water",
+    "Schizogony|Multiple fission of Plasmodium in human liver and red blood cells",
+    "Sporogony|Sexual stage of Plasmodium producing sporozoites inside the mosquito",
+    "#MCB:Viruses",
+    "Obligate intracellular parasites|Viruses can multiply only inside a living host cell",
+    "Capsid|Protein coat of capsomeres that protects the viral genome",
+    "Viral envelope|Lipid layer taken from the host membrane, making viruses easier to destroy with soap and alcohol",
+    "Naked virus|A virus without an envelope, e.g. poliovirus",
+    "Viral genome|Either DNA or RNA, never both",
+    "Virus replication sequence|Attachment, penetration, uncoating, synthesis, assembly and release",
+    "Lytic cycle|Phage destroys the host and releases new phages straight away",
+    "Lysogenic cycle|Phage DNA integrates into the host chromosome and is copied silently with each division",
+    "Prophage|Integrated phage DNA copied with each host cell division",
+    "#MCB:Identification Methods",
+    "Morphological identification|Colony shape, colour, margin and elevation plus microscopy of cell shape and arrangement",
+    "Acid-fast stain (Ziehl-Neelsen)|Stain used to identify Mycobacterium",
+    "Cultural identification|Use of selective, differential and enriched media such as MacConkey, blood agar and Sabouraud dextrose agar",
+    "Selective media|Contain agents that stop some microbes growing",
+    "Mannitol Salt Agar|Has high salt so mainly staphylococci grow",
+    "MacConkey agar|Contains bile salts and crystal violet so mainly Gram-negative bacteria grow",
+    "Differential media|Show differences between organisms that grow; on MacConkey lactose fermenters turn pink and non-fermenters stay colourless",
+    "Catalase test|Hydrogen peroxide gives oxygen bubbles; Staphylococcus positive, Streptococcus negative",
+    "Coagulase test|Tests whether the bacterium clots plasma; positive for Staphylococcus aureus",
+    "Oxidase test|Detects cytochrome c oxidase; Pseudomonas positive, E. coli negative",
+    "IMViC tests|Indole, methyl red, Voges-Proskauer and citrate, separating coliforms; E. coli is typically + + - -",
+    "Serological identification|Agglutination and ELISA detecting specific antigens or antibodies",
+    "Molecular identification|PCR, 16S rRNA sequencing, DNA probes and MALDI-TOF",
+    "Gram-positive cocci workflow|Gram stain, then catalase separates Staphylococcus from Streptococcus, then coagulase separates S. aureus from other staphylococci",
+    "#MCB:Economic Importance",
+    "Lactobacillus and S. thermophilus|Turn lactose into lactic acid, giving yoghurt and cheese sour flavour and thick texture",
+    "Saccharomyces cerevisiae|Ferments sugar to ethanol and CO2 for beer, wine and bread rising",
+    "Aspergillus oryzae|Breaks down soybean and rice in soy sauce production",
+    "Acetobacter|Converts ethanol to acetic acid to make vinegar",
+    "Penicillium (antibiotic)|Source of penicillin",
+    "Streptomyces (antibiotic)|Source of streptomycin",
+    "Genetic engineering|Lets E. coli and yeast make human insulin, growth hormone and vaccines in large tanks",
+    "Rhizobium and Azotobacter|Fix nitrogen, reducing the need for chemical fertiliser",
+    "Bacillus thuringiensis|Makes a toxin used as a natural insecticide",
+    "Mycorrhizal fungi|Help plant roots take up water and phosphorus",
+    "Aspergillus niger|Source of citric acid for soft drinks and preservatives",
+    "Methanogens|Produce biogas (methane) from animal and plant waste",
+    "Bioremediation|Microbial clean-up of oil spills",
+    "Staphylococcus aureus (toxin)|Makes a heat-stable enterotoxin in food left at room temperature",
+    "Clostridium botulinum|Makes botulinum toxin in badly canned food",
+    "Aspergillus flavus|Makes aflatoxins in stored groundnut and maize, which can cause liver cancer",
+    "Biodeterioration|Microbial damage to paper, leather, paint, wood and metal pipes",
+    "Antimicrobial resistance|Overuse of antibiotics selects resistant strains that are harder and costlier to treat",
+    "#MCB:Microbiology of Air",
+    "Airborne microbes|Transient, carried on dust, droplets and aerosols, and they do not multiply in air",
+    "Settle plate method|Open agar plate exposed for a set time; microbes settle by gravity, giving a rough count",
+    "Air sampler (impaction)|Draws a measured volume of air onto agar, giving counts per cubic metre",
+    "HEPA filters|Trap particles to control microbes in air",
+    "Dominant airborne microbes|Spore-formers and pigmented microbes, because spores resist drying and pigments protect against sunlight",
+    "#MCB:Microbiology of Food",
+    "Intrinsic factors|Properties of the food itself such as pH, water activity, nutrients and redox potential",
+    "Extrinsic factors|Storage conditions such as temperature, humidity and surrounding gases",
+    "Water activity (aw)|Available water; low in dried, salted and sugary foods, which resist spoilage",
+    "Food infection|Live bacteria multiply in the gut, e.g. Salmonella and Shigella; symptoms appear after hours or days",
+    "Food intoxication|Toxin made in the food before eating, e.g. S. aureus and C. botulinum; symptoms appear quickly",
+    "Meat and fish spoilage|Caused mainly by Pseudomonas and Proteus",
+    "Canned food spoilage|Caused by Clostridium and Bacillus spores that survive under-processing",
+    "Pathogen growth temperature|Most pathogens grow fastest between about 5 °C and 60 °C",
+    "Irradiation|Preservation method that damages DNA",
+    "#MCB:Microbiology of Milk and Dairy Products",
+    "Milk as growth medium|Rich in lactose, protein and fat, with plenty of water and a pH of about 6.6",
+    "Mycobacterium bovis|Milk-borne cause of bovine tuberculosis",
+    "Ropiness|Spoilage making milk stringy and slimy",
+    "Curdling|Souring in which casein precipitates as lactic acid bacteria ferment lactose",
+    "Methylene blue reduction test|Dye loses its blue colour as microbes use oxygen; faster fading means more bacteria",
+    "Resazurin test|Colour changes from blue to pink to colourless",
+    "Phosphatase test|A positive result means the milk was under-heated or mixed with raw milk",
+    "HTST pasteurisation|72 °C for 15 seconds",
+    "UHT sterilisation|About 135 °C for a few seconds, giving milk that keeps for months unopened",
+    "Yoghurt|Milk heated then inoculated with Lactobacillus bulgaricus and Streptococcus thermophilus",
+    "Cheese ripening moulds|Penicillium roqueforti and P. camemberti ripen blue and Camembert-type cheeses",
+    "Nono|Traditional fermented milk drink in Nigeria soured naturally by lactic acid bacteria",
+    "Butter rancidity|Fat is broken down by microbial lipases",
+    "#MCB:Microbiology of Water",
+    "Surface water|Rivers, ponds and lakes; the most contaminated water source",
+    "Groundwater|Wells and boreholes; filtered by soil but can be polluted by latrines and soakaways",
+    "Indicator organisms|Easily detected gut organisms such as coliforms and faecal streptococci whose presence suggests pathogens",
+    "E. coli (water indicator)|Best indicator of recent faecal pollution; drinking water should have zero in 100 mL",
+    "Multiple Tube Fermentation|Tubes of broth receive different volumes; gas and acid are converted by a table to the most probable number per 100 mL",
+    "Membrane filtration|Water passed through a filter that traps bacteria, then placed on selective agar and colonies counted",
+    "Sedimentation|Water purification step in which large particles settle",
+    "Coagulation/flocculation|Alum makes fine particles clump and sink",
+    "Chlorination|Disinfection with a residual to protect water in pipes",
+    "Waterborne diseases|Cholera, typhoid, dysentery, hepatitis A, giardiasis and polio",
+    "#MCB:Microbiology of Soil",
+    "Soil bacteria|The most abundant group in soil, while fungi have the greatest biomass",
+    "Rhizosphere|Zone around plant roots where roots release sugars and amino acids and microbe numbers are highest",
+    "Nitrification|Nitrosomonas turns ammonia to nitrite and Nitrobacter turns nitrite to nitrate",
+    "Denitrification|Bacteria return nitrogen to the air as gas",
+    "Nitrogen fixation|Rhizobium and Azotobacter fix atmospheric nitrogen",
+    "Serial dilution and plate count|Soil diluted stepwise and spread on agar to count colonies per gram",
+    "Enrichment culture|Medium favouring a particular group so that it outgrows the rest",
+    "#MCB:Bacteria - Structure",
+    "Six groups of microorganisms|Bacteria, fungi, algae, protozoa, viruses and archaea",
+    "Size of bacteria|Usually 0.5 to 5 micrometres long",
+    "Plasma membrane (bacteria)|Controls what enters and leaves the cell and carries out respiration",
+    "Flagella|Whip-like tails used for bacterial movement",
+    "Cocci|Spherical bacteria",
+    "Bacilli|Rod-shaped bacteria",
+    "Vibrios|Comma-shaped bacteria",
+    "Spirilla|Rigid spiral bacteria",
+    "Spirochaetes|Flexible spiral bacteria",
+    "Filamentous bacteria|Shape seen in Streptomyces",
+    "Why canned food is heated under pressure|Endospores survive boiling, drying and disinfectants",
+    "Penicillin action|Blocks cell wall building, so it kills growing bacteria but not human cells",
+    "Gram-positive examples|Bacillus, Staphylococcus and Clostridium",
+    "Gram-negative examples|Escherichia, Pseudomonas and Salmonella",
+    "Safranin|Dye taken up by Gram-negative cells, turning them pink/red",
+    "#MCB:Bacteria - Ecology and Reproduction",
+    "Generation time of E. coli|About 20 minutes in good conditions, so one cell can become millions within hours",
+    "Streptomyces spores|Conidia made at the tips of aerial filaments for dispersal",
+    "Genetic exchange|Not reproduction because cell number does not rise, but it creates variation",
+    "Rhizobium and legumes|The plant supplies sugars in return for the ammonia made from atmospheric nitrogen",
+    "#MCB:Fungi",
+    "Fungal nutrition|Secrete enzymes onto a substrate and absorb the digested nutrients, making fungi nature's main decomposers",
+    "Mycelium|Mass of hyphae seen as the fuzzy growth on spoiled bread",
+    "Histoplasma|Dimorphic fungus that is a mould in the environment and a yeast in the body",
+    "Candida albicans switching|Can switch between yeast and filamentous forms, which helps it invade tissue",
+    "Opportunistic pathogen|Causes disease only when body defences or the normal bacterial balance are weakened",
+    "Aspergillus and Penicillium (ecology)|Found everywhere as airborne spores and major causes of food and grain spoilage",
+    "Aflatoxin|Toxin made by some Aspergillus species",
+    "Schizosaccharomyces|Fungus that reproduces asexually by fission, splitting in two",
+    "Fungal reproduction|Usually both asexual (fast, many identical spores) and sexual (slower, creates variety and hardy spores)",
+    "#MCB:Algae and Protozoa",
+    "Algal pigments|Chlorophyll in chloroplasts plus other pigments giving green, brown or red colours",
+    "Algal cell wall|Made of cellulose, or of silica in diatoms",
+    "Algal forms|Unicellular (Chlorella, Chlamydomonas), colonial (Volvox) or filamentous (Spirogyra)",
+    "Algal oxygen role|Algae supply much of the world's oxygen",
+    "Algal toxins|Some bloom-forming species release toxins into drinking water",
+    "Zoospores|Motile asexual spores of algae",
+    "Fragmentation|Asexual algal method in which filaments break into pieces",
+    "Protozoa|Single-celled eukaryotes that behave like tiny animals and have no cell wall",
+    "Pseudopodia|False feet used by amoeboids for movement",
+    "Micronucleus|Small Paramecium nucleus used in sexual exchange",
+    "Plasmodium (disease)|Causes malaria, spread by Anopheles mosquitoes",
+    "Entamoeba (spread)|Causes amoebic dysentery through contaminated food and water",
+    "Giardia|Flagellate parasite that causes diarrhoea",
+    "Ciliate conjugation|Exchange of nuclear material for variation without increasing cell number",
+    "Free-living protozoa|Live in ponds, wet soil and the sea and help control bacterial numbers",
+    "#MCB:Viruses",
+    "Virus size|About 20 to 300 nanometres, much smaller than bacteria",
+    "Acellular|Having no cytoplasm, ribosomes or metabolism of its own",
+    "Capsomeres|Repeating protein units that build the capsid",
+    "Virus shapes|Helical, icosahedral and complex",
+    "Bacteriophage|Virus that infects bacteria",
+    "Phage structure|Complex shape with a head, tail and tail fibres",
+    "Attachment|First replication step: the virus binds to a receptor on the host cell",
+    "Penetration|Replication step in which the genome or whole virus enters the cell",
+    "Viral release|Happens by lysis (bursting the cell) or by budding out",
+    "Lysogenic trigger|Switches the prophage into the lytic cycle",
+    "#MCB:Identification Methods",
+    "Physiological identification|Oxygen requirement, temperature and pH tolerance and motility",
+    "Biochemical identification|Catalase, oxidase, coagulase, urease, citrate, indole, TSI and sugar fermentation, which separate species",
+    "Pure culture|First step in identification, followed by looking at the microbe and testing what it can do",
+    "Blood agar|Example of an enriched medium",
+    "Lactose fermenter on MacConkey|E. coli, which turns pink from acid",
+    "Non-fermenter on MacConkey|Salmonella, which stays colourless",
+    "No single test|Several clues are combined because one test alone is not enough",
+    "#MCB:Economic Importance",
+    "Economic importance|The money, health and food value, or loss, that microbes bring",
+    "Dual role example|Aspergillus gives citric acid but also aflatoxin",
+    "Fermentation (food)|Microbes ferment raw materials, changing taste, texture and shelf life",
+    "Industrial enzymes|Amylase, protease and lipase used for detergents, brewing and textiles",
+    "Bacterial diseases|Typhoid, cholera and tuberculosis",
+    "Fungal diseases|Candidiasis and ringworm",
+    "Protozoal diseases|Malaria and amoebiasis",
+    "Viral diseases|HIV/AIDS, hepatitis and Lassa fever",
+    "Crop and animal diseases|Plant blights, rusts and smuts, anthrax and foot-and-mouth disease",
+    "#MCB:Microbiology of Air",
+    "Air as a habitat|Not a natural habitat because it has no nutrients or water, so it has no resident flora",
+    "Sources of airborne microbes|Soil and dust, water surfaces, humans, animals and plants",
+    "Common airborne fungi|Aspergillus, Penicillium, Cladosporium and Alternaria",
+    "Airborne diseases|Tuberculosis, influenza, measles and COVID-19",
+    "Air control methods|UV light, ventilation, HEPA filters and surface disinfection",
+    "#MCB:Microbiology of Food",
+    "Food contamination sources|Soil, water, air, food handlers, unclean equipment, pests and animals",
+    "pH (food)|Most bacteria prefer near-neutral, while yeasts and moulds tolerate acid so fruit spoils by fungi",
+    "Bread spoilage|Caused by Rhizopus and Aspergillus",
+    "Fruit and vegetable spoilage|Caused by yeasts and moulds",
+    "Lysozyme|Natural antimicrobial found in egg white",
+    "Heat preservation|Pasteurisation and canning kill cells",
+    "Cold preservation|Refrigeration or freezing slows or stops growth",
+    "Drying, salting and sugaring|Preservation methods that lower water activity",
+    "#MCB:Microbiology of Milk and Dairy Products",
+    "Milk contamination sources|Udder and teat surface, milker's hands, dirty utensils, air, water and animal feed",
+    "Lactococcus and Lactobacillus|Lactic acid bacteria that sour milk",
+    "Fresh milk|Nearly sterile from a healthy udder but contaminated during and after milking",
+    "Standard plate count|Counts colonies grown from a measured volume of milk",
+    "Pasteurisation|Kills disease-causing bacteria without changing the milk much",
+    "Holder method|Pasteurisation at 63 °C for 30 minutes",
+    "Cheese making|Lactic acid bacteria and rennet curdle the milk, then the curd is pressed and ripened",
+    "Butter making|Churning cream, often after souring by lactic acid bacteria",
+    "Blowing of cheese|Gas caused by gas-producing bacteria",
+    "Role of microbes in dairy products|Acid production, flavour and aroma compounds, texture and preservation",
+    "Diacetyl|Compound that gives butter its flavour",
+    "#MCB:Microbiology of Water",
+    "Rainwater|Cleanest water source, though it picks up dust microbes",
+    "Natural flora of water|Pseudomonas, algae and protozoa",
+    "Water contaminants|Faecal bacteria, viruses and parasites entering through sewage, animal waste and runoff",
+    "Presence/absence test|Quick yes/no check for coliforms",
+    "Water filtration|Sand filters remove the remaining particles and many microbes",
+    "Water disinfection|Chlorination, ozone, UV light or boiling",
+    "Reason for indicator organisms|It is impractical to test for every pathogen, so easily detected gut organisms are tested",
+    "#MCB:Microbiology of Soil",
+    "Soil as a habitat|Richest microbial habitat on Earth, with billions of microbes in one gram",
+    "Actinomycetes|Filamentous soil bacteria such as Streptomyces",
+    "Soil fungi|Group with the greatest biomass in soil",
+    "Factors affecting soil microbes|Moisture, pH, temperature, organic matter, aeration and depth",
+    "Decomposition and humus|Dead plants and animals are broken down, releasing nutrients and forming humus that improves soil structure",
+    "Direct microscopy (soil)|Examining soil under the microscope to see microbes in place",
+    "Other soil microbial roles|Binding soil particles, producing antibiotics and promoting plant growth",
+    "#MCB:Quick Revision - Bacteria vs Fungi vs Viruses",
+    "Bacterial cell wall|Peptidoglycan",
+    "Fungal cell wall|Chitin and glucans",
+    "Viral coat|No cell wall, only a protein capsid",
+    "Bacterial treatment|Antibiotics",
+    "Fungal treatment|Antifungals",
+    "Viral treatment|Antivirals and vaccines",
+    "Examples of bacteria, fungi and virus|E. coli, Candida and HIV",
+  ];
   const sh = (a) => {
     a = a.slice();
     for (let i = a.length - 1; i > 0; i--) {
@@ -112,7 +382,7 @@ Size of bacteria|Usually 0.5 to 5 micrometres long Plasma membrane (bacteria)|Co
   let t = "",
     src = "MLS201 Lecturer Notes";
   const F = [];
-  RAW.split("\n").forEach((l) => {
+  RAW.forEach((l) => {
     l = l.trim();
     if (!l) return;
     if (l[0] === "#") {
